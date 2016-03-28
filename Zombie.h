@@ -12,13 +12,21 @@ class ZombieWalk
 {
     private:
         Tile location[30][30];
-        
+        unsigned int currentRow,
+                     currentCol;
     public:
         //=====================================================================
         /*Default constructor: creates random # of zombies range [1, 100] 
         and places zombies in random locations, 
         except for at array locations [0][0] and [29][29].*/
         ZombieWalk();
+        //=====================================================================
+        //GETTERS: COL AND ROW
+        unsigned int getCurrentRow()const {return currentRow;}
+        unsigned int getCurrentCol()const {return currentCol;}
+        //SETTERS: COL AND ROW
+        void setCurrentRow(unsigned int currentRow) {this->currentRow = currentRow;}
+        void setCurrentCol(unsigned int currentCol) {this->currentCol = currentCol;}
         //=====================================================================
         /*Moves character to the tile in the 2D array.
         Make sure character does not go out of bounds. 

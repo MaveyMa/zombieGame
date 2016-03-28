@@ -4,6 +4,7 @@ using namespace std;
 
 unsigned int Tile::num_zombies = 0;
 unsigned int Tile::num_scratches = 0;
+//====================================================
 Tile::Tile()
 {
     isZombie = false;
@@ -12,14 +13,14 @@ Tile::Tile()
     isZombieVisible = false;
     tile_icon = char(176);
 }//END DEFAULT CONSTRUCTOR
-
+//====================================================
 Tile::Tile(bool isZombie, unsigned int num_scratches)
 {
     setIsZombie(isZombie);
     this->num_scratches = num_scratches;
     tile_icon = char(176);
 }//END OVERLOADED CONSTRUCTOR
-
+//====================================================
 void Tile::setIsZombie(bool is_zombie)
 {   
     isZombie = is_zombie;
@@ -29,7 +30,7 @@ void Tile::setIsZombie(bool is_zombie)
     }
     return;
 }//END SET IS ZOMBIE
-
+//====================================================
 void Tile::setIsZombieVisible(bool is_visible)
 {
     isZombieVisible = is_visible;
@@ -39,7 +40,7 @@ void Tile::setIsZombieVisible(bool is_visible)
     }
     return;
 }//END SET IS ZOMBIE VISIBLE
-        
+//====================================================  
 void Tile::setTileIcon(char icon_value)
 {
     if (icon_value == 'x' || icon_value == char(176) || icon_value == '*')
@@ -52,7 +53,7 @@ void Tile::setTileIcon(char icon_value)
     }
     return;
 }//END SET TILE ICON
-
+//====================================================
 void Tile::exploreTile()
 {
     if (isZombie)
@@ -66,7 +67,7 @@ void Tile::exploreTile()
     }
     return;
 }//END EXPLORE TILE
-
+//====================================================
 void Tile::resetTile()
 {
     if (isZombie && num_zombies > 0)

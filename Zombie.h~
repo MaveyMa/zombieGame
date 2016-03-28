@@ -1,6 +1,6 @@
-#include "Tile.h"
 #ifndef ZOMBIE_WALK_H
 #define ZOMBIE_WALK_H
+#include "Tile.h"
 
 /*
 Class Name: ZombieWalk

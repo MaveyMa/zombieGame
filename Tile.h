@@ -20,9 +20,11 @@ class Tile
         then it should increment num_zombies by 1. tile_icon = char(176).*/
         Tile(bool isZombie, unsigned int num_scratches);
         //=====================================================================
-        bool getIsZobmie()const {return isZombie;}
+        bool getIsZombie()const {return isZombie;}
         bool getIsZombieVisible()const {return isZombieVisible;}
         char getTileIcon()const {return tile_icon;}
+        static unsigned int get_num_zombies() {return num_zombies;}
+        static unsigned int get_num_scratches() {return num_scratches;}
         //=====================================================================
         /*Assigns value to isZombie, if the value is true increment num_zombies by 1*/
         void setIsZombie(bool is_zombie);
@@ -31,13 +33,15 @@ class Tile
         void setIsZombieVisible(bool is_visible);
         //Assigns the icon_value only if the input is ‘x’, char(176), or ‘*’
         void setTileIcon(char icon_value);
+        static void setNumZombies(unsigned int num_zombies) {Tile::num_zombies = num_zombies;}
+        static void setNumScratches(unsigned int num_scratches) {Tile::num_scratches = num_scratches;}
         //=====================================================================
         /*If the tile is a zombie, then setIsZombieVisible to true, 
         increment num_scratches by 1, if it is not a zombie then set the tile_icon to ‘x’;*/
         void exploreTile();
         //=====================================================================
         /*Resets all of values of the tile to the specifications of the default constructor. 
-        In addition, if the original Tile was a zombie then subtract 1 from num_zobmies. 
+        In addition, if the original Tile was a zombie then subtract 1 from num_zombies. 
         If num_zombies is 0, do not subtract.*/
         void resetTile();
         //=====================================================================
