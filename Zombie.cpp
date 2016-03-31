@@ -16,10 +16,11 @@ ZombieWalk::ZombieWalk()
     //SET RANDOM NUMBER OF ZOMBIES
     srand(time(0));
     randomGeneratedNumber = rand() % 100 + 1;
-    Tile::setNumZombies(randomGeneratedNumber); //[1, 100]
+    //Tile::setNumZombies(randomGeneratedNumber); //[1, 100]
+    location[currentRow][currentCol].setNumZombies(randomGeneratedNumber);
 
     //PLACE ZOMBIES RANDOMLY ON BOARD
-    for (int i = 0; i < Tile::get_num_zombies(); i++)
+    for (int i = 0; i < location[currentRow][currentCol].get_num_zombies(); i++)
     {
         row = rand() % 28 + 1; //[1, 28]
         col = rand() % 28 + 1;
@@ -145,28 +146,65 @@ void ZombieWalk::downDiag()
 void ZombieWalk::newGame()
 {
     //Resets 2D array of tiles, creates new random # of zombies.
+    for (int i = 0; i < 29; i++)
+    {
+        for (int j = 0; j < 29; j++)
+        {
+            location[i][j].resetTile();
+        }
+    }
+    ZombieWalk();
     return;
 }//END NEW GAME RESET BOARD
 //====================================================
 void ZombieWalk::displayBoard()
 {
+    for (int i = 0; i < 30; i++)
+    {
+        for (int j = 0; j < 30; j++)
+        {
+            cout << location[i][j].getTileIcon(); 
+        }
+        cout << endl;
+    }
     return;
 }//END DISPLAY BOARD
 //====================================================
 void ZombieWalk::displayGameOver()
 {//Display "Game Over" message and 2D array board with all zombies.
+    for (int i = 0; i < 29; i++)
+    {
+        for (int j = 0; j < 29; j++)
+        {
+            if (location[i][j].getIsZombie())
+            {
+                location[i][j].setIsZombieVisible(true);
+            }
+            cout << location[i][j].getTileIcon(); 
+        }
+        cout << endl;
+    }
+    cout << "GAME OVER." << endl;
     return;
 }//END DISPLAY BOARD
 //====================================================    
 bool ZombieWalk::isGameOver()
 {
 //Returns true if numScratches>2 and player is not at location [29][29]
+    if (Tile::get_num_scratches() > 2 && location[29][29].getTileIcon() != 'x')
+    {
+        return true;
+    }
     return false;
 }//END DISPLAY BOARD
 //====================================================
 bool ZombieWalk::didWin()
 {
-        //Returns true if user makes it to location [29][29].
+//Returns true if user makes it to location [29][29].
+    if (location[29][29].getTileIcon() == 'x')
+    {
+        return true;
+    }
     return false;
 }//END DISPLAY BOARD
 //====================================================
@@ -176,6 +214,7 @@ void ZombieWalk::checkEndGame()
         If any of these occurred, it should display the result 
         and ask if the player wants to play again. 
         If they do, then create a new game.*/
+    
     return;
 }//END CHECK END GAME
 //====================================================
