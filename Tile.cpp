@@ -58,7 +58,7 @@ void Tile::setTileIcon(char icon_value)
 //====================================================
 void Tile::exploreTile()
 {
-    if (isZombie)
+    if (getIsZombie())
     {
         setIsZombieVisible(true);
         setNumScratches(num_scratches++);

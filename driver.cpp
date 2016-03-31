@@ -6,8 +6,7 @@ int main()
 {
 
     ZombieWalk panda;
-    panda.displayGameOver();
-
+    panda.runGame();
     cout << "HELLO PANDA!" << endl;
     return 0;
 }//END MAIN

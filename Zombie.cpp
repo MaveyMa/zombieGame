@@ -159,9 +159,9 @@ void ZombieWalk::newGame()
 //====================================================
 void ZombieWalk::displayBoard()
 {
-    for (int i = 0; i < 30; i++)
+    for (int i = 0; i < 29; i++)
     {
-        for (int j = 0; j < 30; j++)
+        for (int j = 0; j < 29; j++)
         {
             cout << location[i][j].getTileIcon(); 
         }
@@ -176,17 +176,26 @@ void ZombieWalk::displayGameOver()
     {
         for (int j = 0; j < 29; j++)
         {
-            if (location[i][j].getIsZombie())
+            if (location[i][j].getIsZombie()) //ZOMBIE HERE
             {
-                location[i][j].setIsZombieVisible(true);
+                //location[i][j].setIsZombieVisible(true);
+                cout << "*";
             }
-            cout << location[i][j].getTileIcon(); 
-        }
+            //cout << location[i][j].getTileIcon(); 
+            else if (location[i][j].getTileIcon() == 'x') //PLAYER'S BEEN HERE
+            {
+                cout << "x";
+            }
+            else //NOTHING THERE
+            {
+                cout << "m";
+            }
+        }//END J LOOP
         cout << endl;
-    }
+    }//END I LOOP
     cout << "GAME OVER." << endl;
     return;
-}//END DISPLAY BOARD
+}//END DISPLAY GAME OVER
 //====================================================    
 bool ZombieWalk::isGameOver()
 {
@@ -214,7 +223,27 @@ void ZombieWalk::checkEndGame()
         If any of these occurred, it should display the result 
         and ask if the player wants to play again. 
         If they do, then create a new game.*/
-    
+    char choice;
+    if (isGameOver())
+    {
+        cout << "NEXT TIME." << endl;
+    }
+    else if (didWin())
+    {
+        cout << "CONGRATS! YOU WIN." << endl;
+    }
+
+    cout << "PLAY AGAIN? (Y/N)";
+    cin >> choice;
+    choice = toupper(choice);
+    if (choice=='Y')
+    {
+        newGame();
+    }
+    else
+    {
+        cout << "LOGGING OFF." << endl;
+    }
     return;
 }//END CHECK END GAME
 //====================================================
@@ -225,6 +254,44 @@ void ZombieWalk::runGame()
         up, down, right, left, up diagonal, or down diagonal. 
         2) After each move, display board with unseen zombies as invisible. 
         Also display total number of zombies on board. 
-        3) Keep running game until game is over. Decide which methods if any you want to be private.*/    
+        3) Keep running game until game is over. Decide which methods if any you want to be private.*/
+        char choice;
+        //location[0][0].setTileIcon('x');
+        while (!isGameOver())
+        {
+            displayBoard();
+            cout << "ENTER MOVE.\n"
+                 << "\t[W] UP   [E] UP DIAGONAL\n"
+                 << "[A] LEFT  [D] RIGHT\n"
+                 << "\t[S] DOWN   [C] DOWN DIAGONAL\n" << endl;
+            cin >> choice;
+
+            choice = toupper(choice);
+            switch(choice)
+            {
+                case 'W':
+                    moveUp();
+                    break;
+                case 'E':
+                    upDiag();
+                    break;
+                case 'D':
+                    moveRight();
+                    break;
+                case 'A':
+                    moveLeft();
+                    break;
+                case 'S':
+                    moveDown();
+                    break;
+                case 'C':
+                    downDiag();
+                    break;
+                default:
+                    cout << "Invalid input." << endl;
+                    break;
+            }//END SWITCH
+           // cout << "TOTAL ZOMBIES: " << Tile::get_num_zombies() << endl;         
+        }
     return;
 }//END RUN GAME
