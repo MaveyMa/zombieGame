@@ -226,23 +226,27 @@ void ZombieWalk::checkEndGame()
     char choice;
     if (isGameOver())
     {
-        cout << "NEXT TIME." << endl;
+        displayGameOver();
+        cout << "PLAY AGAIN? (Y/N)";
+        cin >> choice;
+        choice = toupper(choice);
+        if (choice=='Y')
+        {
+            Tile::setNumScratches(0);
+            newGame();
+        }
     }
     else if (didWin())
     {
         cout << "CONGRATS! YOU WIN." << endl;
-    }
-
-    cout << "PLAY AGAIN? (Y/N)";
-    cin >> choice;
-    choice = toupper(choice);
-    if (choice=='Y')
-    {
-        newGame();
-    }
-    else
-    {
-        cout << "LOGGING OFF." << endl;
+        cout << "PLAY AGAIN? (Y/N)";
+        cin >> choice;
+        choice = toupper(choice);
+        if (choice=='Y')
+        {
+            Tile::setNumScratches(0);
+            newGame();
+        }
     }
     return;
 }//END CHECK END GAME
@@ -256,7 +260,7 @@ void ZombieWalk::runGame()
         Also display total number of zombies on board. 
         3) Keep running game until game is over. Decide which methods if any you want to be private.*/
         char choice;
-        //location[0][0].setTileIcon('x');
+        location[0][0].Tile::setTileIcon('x');
         while (!isGameOver())
         {
             displayBoard();
@@ -291,7 +295,10 @@ void ZombieWalk::runGame()
                     cout << "Invalid input." << endl;
                     break;
             }//END SWITCH
-           // cout << "TOTAL ZOMBIES: " << Tile::get_num_zombies() << endl;         
+            cout << "TOTAL ZOMBIES: " << Tile::get_num_zombies() << endl; 
+            cout << "TOTAL SCRATCHES: " << Tile::get_num_scratches() << endl; 
+            checkEndGame();        
         }
+
     return;
 }//END RUN GAME

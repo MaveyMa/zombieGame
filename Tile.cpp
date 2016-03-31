@@ -47,7 +47,7 @@ void Tile::setTileIcon(char icon_value)
 {
     if (icon_value == 'x' || icon_value == 'm' || icon_value == '*')
     {
-        setTileIcon(icon_value);
+        tile_icon = icon_value;
     }
     else
     {
@@ -61,7 +61,7 @@ void Tile::exploreTile()
     if (getIsZombie())
     {
         setIsZombieVisible(true);
-        setNumScratches(num_scratches++);
+        num_scratches++;
     }
     else
     {
