@@ -15,23 +15,25 @@ ZombieWalk::ZombieWalk()
 
     //SET RANDOM NUMBER OF ZOMBIES
     srand(time(0));
-    randomGeneratedNumber = rand() % 100 + 1;
-    //Tile::setNumZombies(randomGeneratedNumber); //[1, 100]
+    randomGeneratedNumber = rand() % 100 + 1; //[1, 100]
     location[currentRow][currentCol].setNumZombies(randomGeneratedNumber);
 
     //PLACE ZOMBIES RANDOMLY ON BOARD
     for (int i = 0; i < location[currentRow][currentCol].get_num_zombies(); i++)
     {
-        row = rand() % 28 + 1; //[1, 28]
-        col = rand() % 28 + 1;
+        row = rand() % 30; //[0, 29]
+        col = rand() % 30;
         //IF ZOMBIE IS THERE, TRY TO LOOK FOR ANOTHER SPOT.
-        if (location[row][col].getIsZombie())
+        if (location[row][col].getIsZombie()
+            || row==0 && col==0
+            || row==29 && col==29)
         {
             i--;
         }
         else
         {
             location[row][col].setIsZombie(true);
+            location[row][col].setTileIcon('*');
         }
     }//END FOR
     /*Default constructor: creates random # of zombies range [1, 100] 
@@ -64,7 +66,7 @@ void ZombieWalk::moveDown()
     //CHECK FOR OUT OF BOUNDS, PLAYER CANNOT ALREADY BE IN ROW 29
     if (currentRow == 29)
     {
-        cout << "Cannot move up out of bounds." << endl;    
+        cout << "Cannot move down out of bounds." << endl;    
     }
     //MOVE FORTH. THERE'S EITHER A SAFE SPACE, OR A ZOMBIE!
     else
@@ -80,7 +82,7 @@ void ZombieWalk::moveLeft()
     //CHECK FOR OUT OF BOUNDS, PLAYER CANNOT ALREADY BE IN COL 0
     if (currentCol == 0)
     {
-        cout << "Cannot move up out of bounds." << endl;    
+        cout << "Cannot move left out of bounds." << endl;    
     }
     //MOVE FORTH. THERE'S EITHER A SAFE SPACE, OR A ZOMBIE!
     else
@@ -96,7 +98,7 @@ void ZombieWalk::moveRight()
     //CHECK FOR OUT OF BOUNDS, PLAYER CANNOT ALREADY BE IN COL 29
     if (currentCol == 29)
     {
-        cout << "Cannot move up out of bounds." << endl;    
+        cout << "Cannot move right out of bounds." << endl;    
     }
     //MOVE FORTH. THERE'S EITHER A SAFE SPACE, OR A ZOMBIE!
     else
@@ -112,7 +114,7 @@ void ZombieWalk::upDiag()
     //CHECK FOR OUT OF BOUNDS, PLAYER CANNOT ALREADY BE IN ROW 0 OR COL 29
     if (currentRow == 0 || currentCol == 29)
     {
-        cout << "Cannot move up out of bounds." << endl;    
+        cout << "Cannot move out of bounds." << endl;    
     }
     //MOVE FORTH. THERE'S EITHER A SAFE SPACE, OR A ZOMBIE!
     else
@@ -130,7 +132,7 @@ void ZombieWalk::downDiag()
     //CHECK FOR OUT OF BOUNDS, PLAYER CANNOT ALREADY BE IN ROW 29 OR COL 29
     if (currentRow == 29 || currentCol == 29)
     {
-        cout << "Cannot move up out of bounds." << endl;    
+        cout << "Cannot move out of bounds." << endl;    
     }
     //MOVE FORTH. THERE'S EITHER A SAFE SPACE, OR A ZOMBIE!
     else
@@ -146,24 +148,64 @@ void ZombieWalk::downDiag()
 void ZombieWalk::newGame()
 {
     //Resets 2D array of tiles, creates new random # of zombies.
-    for (int i = 0; i < 29; i++)
+    for (int i = 0; i < 30; i++)
     {
-        for (int j = 0; j < 29; j++)
+        for (int j = 0; j < 30; j++)
         {
             location[i][j].resetTile();
         }
     }
-    ZombieWalk();
+    currentRow = 0;
+    currentCol = 0;
+
+    int row, col;
+    unsigned int randomGeneratedNumber;
+
+    //SET RANDOM NUMBER OF ZOMBIES
+    srand(time(0));
+    randomGeneratedNumber = rand() % 100 + 1; //[1, 100]
+    location[currentRow][currentCol].setNumZombies(randomGeneratedNumber);
+
+    //PLACE ZOMBIES RANDOMLY ON BOARD
+    for (int i = 0; i < location[currentRow][currentCol].get_num_zombies(); i++)
+    {
+        row = rand() % 30; //[0, 29]
+        col = rand() % 30;
+        //IF ZOMBIE IS THERE, TRY TO LOOK FOR ANOTHER SPOT.
+        if (location[row][col].getIsZombie()
+            || row==0 && col==0
+            || row==29 && col==29)
+        {
+            i--;
+        }
+        else
+        {
+            location[row][col].setIsZombie(true);
+            location[row][col].setTileIcon('*');
+        }
+    }
+    location[0][0].Tile::setTileIcon('x');
     return;
 }//END NEW GAME RESET BOARD
 //====================================================
 void ZombieWalk::displayBoard()
 {
-    for (int i = 0; i < 29; i++)
+    for (int i = 0; i < 30; i++)
     {
-        for (int j = 0; j < 29; j++)
+        for (int j = 0; j < 30; j++)
         {
-            cout << location[i][j].getTileIcon(); 
+            if (location[i][j].getIsZombieVisible())
+            {
+                cout << "*"; //*
+            }
+            else if (location[i][j].getTileIcon() == 'x') //PLAYER'S BEEN HERE
+            {
+                cout << "x";
+            }
+            else //NOTHING THERE
+            {
+                cout << "m";
+            }
         }
         cout << endl;
     }
@@ -172,9 +214,9 @@ void ZombieWalk::displayBoard()
 //====================================================
 void ZombieWalk::displayGameOver()
 {//Display "Game Over" message and 2D array board with all zombies.
-    for (int i = 0; i < 29; i++)
+    for (int i = 0; i < 30; i++)
     {
-        for (int j = 0; j < 29; j++)
+        for (int j = 0; j < 30; j++)
         {
             if (location[i][j].getIsZombie()) //ZOMBIE HERE
             {
@@ -198,8 +240,7 @@ void ZombieWalk::displayGameOver()
 }//END DISPLAY GAME OVER
 //====================================================    
 bool ZombieWalk::isGameOver()
-{
-//Returns true if numScratches>2 and player is not at location [29][29]
+{//Returns true if numScratches>2 and player is not at location [29][29]
     if (Tile::get_num_scratches() > 2 && location[29][29].getTileIcon() != 'x')
     {
         return true;

@@ -13,11 +13,11 @@ class Tile
         //====================================================
         /*Default constructor: creates a Tile with 
         isZombie = false, num_scratches = 0, num_zombies = 0
-        and isZombieVisible should be false; tile_icon = '&'.*/
+        and isZombieVisible should be false; tile_icon = 'm'.*/
         Tile();
         //====================================================
         /*Assigns corresponding variables and if isZombie is true, 
-        then it should increment num_zombies by 1. tile_icon = '&'.*/
+        then it should increment num_zombies by 1. tile_icon = 'm'.*/
         Tile(bool isZombie, unsigned int num_scratches);
         //====================================================
         //GETTERS
@@ -33,7 +33,7 @@ class Tile
         /*Sets corresponding value to isZombieVisible. 
         If zombie is now visible, set the tile_icon = ‘*’;*/
         void setIsZombieVisible(bool is_visible);
-        //Assigns the icon_value only if the input is ‘x’, '&', or ‘*’
+        //Assigns the icon_value only if the input is ‘x’, 'm', or ‘*’
         void setTileIcon(char icon_value);
         static void setNumZombies(unsigned int num_zombies) {Tile::num_zombies = num_zombies;}
         static void setNumScratches(unsigned int num_scratches) {Tile::num_scratches = num_scratches;}
